@@ -1,23 +1,26 @@
-from .models import *
+from .database_manager import *
 
-class PersonService():
+class PersonService:
+    
+    def __init__(self, database):
+        self.db = database
 
     @db_session
     def add_person(self, first_name, last_name):
-        return Person(first_name=first_name, last_name=last_name)
+        return self.db.Person(first_name=first_name, last_name=last_name)
 
     @db_session
     def remove_person(self,person_id):
-        Person[person_id].delete()
+        self.db.Person[person_id].delete()
 
     @db_session
     def get_person_by_id(self, person_id):
-        return Person.get(id=person_id)
+        return self.db.Person.get(id=person_id)
 
     @db_session
     def list_all_persons(self):
-        return Person.select()[:]
+        return self.db.Person.select()[:]
 
     @db_session
     def count_persons(self):
-        return Person.select().count()
+        return self.db.Person.select().count()
