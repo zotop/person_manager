@@ -11,7 +11,7 @@ class PersonService():
         Person[person_id].delete()
 
     @db_session
-    def get_person(self, person_id):
+    def get_person_by_id(self, person_id):
         return Person.get(id=person_id)
 
     @db_session
