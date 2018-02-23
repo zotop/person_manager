@@ -2,11 +2,18 @@ from src.database_manager import DatabaseManager
 from src.person_service import PersonService
 import pytest
 
+@pytest.fixture(scope='session')
+def db():
+    return DatabaseManager().initialize_database()
+
+@pytest.fixture(scope='session')    
+def person_service(db):
+    return PersonService(db)   
+
 @pytest.fixture(autouse=True, scope='function')
-def person_service():
-    db = DatabaseManager().initialize_database()
+def run_around_tests(db):
     db.create_tables()
-    yield PersonService(db)
+    yield
     db.drop_all_tables(with_all_data=True)
     
 def create_2_persons(person_service):
