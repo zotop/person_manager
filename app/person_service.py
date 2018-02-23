@@ -12,11 +12,11 @@ class PersonService():
 
     @db_session
     def get_person(self, person_id):
-        None
+        return Person.get(id=person_id)
 
     @db_session
     def list_all_persons(self):
-        None
+        return Person.select()[:]
 
     @db_session
     def count_persons(self):
