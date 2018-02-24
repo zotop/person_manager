@@ -1,7 +1,7 @@
-from .database_manager import *
+from pony.orm import *
 
 class PersonService:
-    
+
     def __init__(self, database):
         self.db = database
 
