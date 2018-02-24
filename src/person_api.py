@@ -20,6 +20,13 @@ def remove_person(person_id):
     return ('', 204)
 
 
+@person_api_blueprint.route('/api/person/<int:person_id>', methods=['GET'])
+def get_person(person_id):
+    person = person_service.get_person_by_id(person_id)
+    response = jsonify(person.to_dict())
+    response.status_code = 200
+    return response
+
 @person_api_blueprint.route('/api/person/list', methods=['GET'])
 def list_all_persons():
     all_persons = person_service.list_all_persons()
