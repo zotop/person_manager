@@ -24,7 +24,7 @@ def run_around_tests(db):
 
 def test_add_new_person(test_client, person_service):
     person = json.dumps(dict(first_name='John', last_name='Parker'))
-    response = test_client.post('/api/person', data=person, content_type='application/json')
+    response = test_client.post('/api/persons', data=person, content_type='application/json')
     json_response = json.loads(response.get_data())
 
     assert response.status_code == 201
@@ -34,7 +34,7 @@ def test_add_new_person(test_client, person_service):
 
 def test_delete_person(test_client, person_service):
     person = person_service.add_person(first_name='Mary', last_name='Goldman')
-    response = test_client.delete('/api/person/' + str(person.id))
+    response = test_client.delete('/api/persons/' + str(person.id))
 
     assert response.status_code == 204
     assert person_service.count_persons() == 0
@@ -42,7 +42,7 @@ def test_delete_person(test_client, person_service):
 def test_get_person(test_client, person_service):
     p1 = person_service.add_person(first_name='Mary', last_name='Goldman')
     p2 = person_service.add_person(first_name='Jane', last_name='Templeton')
-    response = test_client.get('/api/person/' + str(p1.id))
+    response = test_client.get('/api/persons/' + str(p1.id))
     json_response = json.loads(response.get_data())
 
     assert response.status_code == 200
@@ -53,7 +53,7 @@ def test_get_person(test_client, person_service):
 def test_list_all_persons(test_client, person_service):
     p1 = person_service.add_person(first_name='Mary', last_name='Goldman')
     p2 = person_service.add_person(first_name='Jane', last_name='Templeton')
-    response = test_client.get('/api/person/list')
+    response = test_client.get('/api/persons/list')
     json_response = json.loads(response.get_data())
 
     assert response.status_code == 200
