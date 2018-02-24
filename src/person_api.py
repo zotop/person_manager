@@ -13,3 +13,8 @@ def add_new_person():
     response = jsonify(new_person.to_dict())
     response.status_code = 201
     return response
+
+@person_api_blueprint.route('/api/person/<int:person_id>', methods=['DELETE'])
+def remove_person(person_id):
+    person_service.remove_person(person_id)
+    return ('', 204)

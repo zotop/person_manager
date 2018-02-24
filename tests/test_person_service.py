@@ -6,16 +6,16 @@ import pytest
 def db():
     return DatabaseManager().initialize_database()
 
-@pytest.fixture(scope='session')    
+@pytest.fixture(scope='session')
 def person_service(db):
-    return PersonService(db)   
+    return PersonService(db)
 
 @pytest.fixture(autouse=True, scope='function')
 def run_around_tests(db):
     db.create_tables()
     yield
     db.drop_all_tables(with_all_data=True)
-    
+
 def create_2_persons(person_service):
     p1 = person_service.add_person('John', 'Smith')
     p2 = person_service.add_person('Mary', 'Cooper')

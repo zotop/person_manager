@@ -1,6 +1,7 @@
 .Python
 .pytest_cache
 *.pyc
+*.sqlite
 __pycache__/
 bin
 include
