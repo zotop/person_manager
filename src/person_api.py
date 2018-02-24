@@ -18,3 +18,12 @@ def add_new_person():
 def remove_person(person_id):
     person_service.remove_person(person_id)
     return ('', 204)
+
+
+@person_api_blueprint.route('/api/person/list', methods=['GET'])
+def list_all_persons():
+    all_persons = person_service.list_all_persons()
+    all_persons = map(lambda x:x.to_dict(), all_persons)
+    response = jsonify(all_persons)
+    response.status_code = 200
+    return response

@@ -38,3 +38,12 @@ def test_delete_person(test_client, person_service):
 
     assert response.status_code == 204
     assert person_service.count_persons() == 0
+
+def test_list_all_persons(test_client, person_service):
+    p1 = person_service.add_person(first_name='Mary', last_name='Goldman')
+    p2 = person_service.add_person(first_name='Jane', last_name='Templeton')
+    response = test_client.get('/api/person/list')
+    json_response = json.loads(response.get_data())
+
+    assert response.status_code == 200
+    assert len(json_response) == 2
