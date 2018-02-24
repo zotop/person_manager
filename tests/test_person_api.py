@@ -3,6 +3,7 @@ from src.database_manager import DatabaseManager
 from src.person_service import PersonService
 import json
 import pytest
+from tests.person_factory import PersonFactory
 
 @pytest.fixture(scope='session')
 def test_client():
@@ -16,13 +17,17 @@ def db():
 def person_service(db):
     return PersonService(db)
 
+@pytest.fixture(scope='session')
+def person_factory(db):
+    return PersonFactory(db)
+
 @pytest.fixture(autouse=True, scope='function')
 def run_around_tests(db):
     db.create_tables()
     yield
     db.drop_all_tables(with_all_data=True)
 
-def test_add_new_person(test_client, person_service):
+def test_add_new_person(test_client):
     person = json.dumps(dict(first_name='John', last_name='Parker'))
     response = test_client.post('/api/persons', data=person, content_type='application/json')
     json_response = json.loads(response.get_data())
@@ -32,27 +37,25 @@ def test_add_new_person(test_client, person_service):
     assert json_response.get('last_name') == 'Parker'
     assert json_response.get('id') != None
 
-def test_delete_person(test_client, person_service):
-    person = person_service.add_person(first_name='Mary', last_name='Goldman')
+def test_delete_person(test_client, person_service, person_factory):
+    person = person_factory.create()
     response = test_client.delete('/api/persons/' + str(person.id))
 
     assert response.status_code == 204
     assert person_service.count_persons() == 0
 
-def test_get_person(test_client, person_service):
-    p1 = person_service.add_person(first_name='Mary', last_name='Goldman')
-    p2 = person_service.add_person(first_name='Jane', last_name='Templeton')
-    response = test_client.get('/api/persons/' + str(p1.id))
+def test_get_person(test_client, person_factory):
+    persons = person_factory.create_many(2)
+    response = test_client.get('/api/persons/' + str(persons[0].id))
     json_response = json.loads(response.get_data())
 
     assert response.status_code == 200
-    assert json_response.get('first_name') == 'Mary'
-    assert json_response.get('last_name') == 'Goldman'
+    assert json_response.get('first_name') == persons[0].first_name
+    assert json_response.get('last_name') ==  persons[0].last_name
     assert json_response.get('id') != None
 
-def test_list_all_persons(test_client, person_service):
-    p1 = person_service.add_person(first_name='Mary', last_name='Goldman')
-    p2 = person_service.add_person(first_name='Jane', last_name='Templeton')
+def test_list_all_persons(test_client, person_factory):
+    persons = person_factory.create_many(2)
     response = test_client.get('/api/persons/list')
     json_response = json.loads(response.get_data())
 
