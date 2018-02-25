@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, json
+from flask import Flask, render_template
 from os import environ
 from person_api import person_api_blueprint
 
