@@ -1,6 +1,6 @@
-from src.app import app
-from src.database_manager import DatabaseManager
-from src.person_service import PersonService
+from app.app import app
+from app.database_manager import DatabaseManager
+from app.person_service import PersonService
 import json
 import pytest
 from tests.person_factory import PersonFactory

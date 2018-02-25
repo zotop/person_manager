@@ -1,5 +1,5 @@
-from src.database_manager import DatabaseManager
-from src.person_service import PersonService
+from app.database_manager import DatabaseManager
+from app.person_service import PersonService
 from tests.person_factory import PersonFactory
 import pytest
 
