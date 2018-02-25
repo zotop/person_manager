@@ -10,7 +10,7 @@ class DatabaseManager:
 
     def initialize_database(self):
         db = Database()
-        db.bind(provider='sqlite', filename='database.sqlite', create_db=True)    
+        db.bind(provider='sqlite', filename='database.sqlite', create_db=True)
         self.define_entities(db)
         db.generate_mapping(create_tables=True)
         return db
