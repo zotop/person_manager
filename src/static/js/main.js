@@ -4,8 +4,8 @@ $(window).on( "load", function() {
 			type: 'GET',
 			success: function(persons){
         $.each( persons, function( index, person ) {
-          newPersonRow = "<tr><td>" + person['first_name']+ "</td><td>" + person['last_name'] + "</td></tr>";
-          $('#personsTable tbody').append(newPersonRow);
+          personRow = "<tr><td>" + person['first_name']+ "</td><td>" + person['last_name'] + "</td></tr>";
+          $('#personsTable tbody').append(personRow);
         });
 			},
 			error: function(error){
@@ -24,8 +24,9 @@ $(function(){
 			data: JSON.stringify({'first_name': firstName, 'last_name': lastName}),
       contentType: "application/json",
 			type: 'POST',
-			success: function(response){
-				console.log(response);
+			success: function(person){
+        newPersonRow = "<tr><td>" + person['first_name']+ "</td><td>" + person['last_name'] + "</td></tr>";
+        $('#personsTable tbody').prepend(newPersonRow);
 			},
 			error: function(error){
 				console.log(error);
