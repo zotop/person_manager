@@ -27,6 +27,7 @@ def run_around_tests(db):
     yield
     db.drop_all_tables(with_all_data=True)
 
+#POST Add Person
 def test_add_new_person(test_client):
     person = json.dumps(dict(first_name='John', last_name='Parker'))
     response = test_client.post('/api/persons', data=person, content_type='application/json')
@@ -37,12 +38,15 @@ def test_add_new_person(test_client):
     assert json_response.get('last_name') == 'Parker'
     assert json_response.get('id') != None
 
+#DELETE Person
 def test_delete_person(test_client, person_service, person_factory):
     person = person_factory.create()
     response = test_client.delete('/api/persons/' + str(person.id))
 
     assert response.status_code == 204
     assert person_service.count_persons() == 0
+
+# GET Person
 
 def test_get_person(test_client, person_factory):
     persons = person_factory.create_many(2)
@@ -54,6 +58,11 @@ def test_get_person(test_client, person_factory):
     assert json_response.get('last_name') ==  persons[0].last_name
     assert json_response.get('id') != None
 
+def test_get_person_that_is_not_found(test_client, person_factory):
+    response = test_client.get('/api/persons/1')
+    assert response.status_code == 404
+
+# GET List all Persons
 def test_list_all_persons(test_client, person_factory):
     persons = person_factory.create_many(2)
     response = test_client.get('/api/persons/list')
