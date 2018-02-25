@@ -1,3 +1,20 @@
+$(window).on( "load", function() {
+   $.ajax({
+			url: '/api/persons/list',
+			type: 'GET',
+			success: function(persons){
+        $.each( persons, function( index, person ) {
+          newPersonRow = "<tr><td>" + person['first_name']+ "</td><td>" + person['last_name'] + "</td></tr>";
+          $('#personsTable tbody').append(newPersonRow);
+        });
+			},
+			error: function(error){
+				console.log(error);
+        alert("Error: Could not retrieve persons list.");
+			}
+		});
+});
+
 $(function(){
 	$('#addPerson').click(function(){
 		var firstName = $('#firstNameInput').val();
