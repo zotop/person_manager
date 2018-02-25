@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from database_manager import DatabaseManager
 from person_service import PersonService
+from pony.orm import *
 
 person_api_blueprint = Blueprint('person_api', __name__)
 db = DatabaseManager().initialize_database()
@@ -16,8 +17,12 @@ def add_new_person():
 
 @person_api_blueprint.route('/api/persons/<int:person_id>', methods=['DELETE'])
 def remove_person(person_id):
-    person_service.remove_person(person_id)
-    return ('', 204)
+    try:
+        person_service.remove_person(person_id)
+        return ('', 204)
+    except ObjectNotFound:
+        return ('', 404)
+
 
 
 @person_api_blueprint.route('/api/persons/<int:person_id>', methods=['GET'])
@@ -28,7 +33,7 @@ def get_person(person_id):
         response.status_code = 200
         return response
     else:
-        return ('', 404)    
+        return ('', 404)
 
 @person_api_blueprint.route('/api/persons/list', methods=['GET'])
 def list_all_persons():

@@ -46,8 +46,11 @@ def test_delete_person(test_client, person_service, person_factory):
     assert response.status_code == 204
     assert person_service.count_persons() == 0
 
-# GET Person
+def test_delete_person_that_is_not_found(test_client):
+    response = test_client.delete('/api/persons/20')
+    assert response.status_code == 404
 
+# GET Person
 def test_get_person(test_client, person_factory):
     persons = person_factory.create_many(2)
     response = test_client.get('/api/persons/' + str(persons[0].id))
@@ -58,7 +61,7 @@ def test_get_person(test_client, person_factory):
     assert json_response.get('last_name') ==  persons[0].last_name
     assert json_response.get('id') != None
 
-def test_get_person_that_is_not_found(test_client, person_factory):
+def test_get_person_that_is_not_found(test_client):
     response = test_client.get('/api/persons/1')
     assert response.status_code == 404
 
@@ -70,3 +73,10 @@ def test_list_all_persons(test_client, person_factory):
 
     assert response.status_code == 200
     assert len(json_response) == 2
+
+def test_list_all_persons_when_there_is_none(test_client):
+    response = test_client.get('/api/persons/list')
+    json_response = json.loads(response.get_data())
+
+    assert response.status_code == 200
+    assert len(json_response) == 0
