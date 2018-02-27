@@ -6,8 +6,8 @@ class PersonService:
         self.db = database
 
     @db_session
-    def add_person(self, first_name, last_name):
-        return self.db.Person(first_name=first_name, last_name=last_name)
+    def add_person(self, args):
+        return self.db.Person(**args)
 
     @db_session
     def remove_person(self,person_id):

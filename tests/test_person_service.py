@@ -23,7 +23,7 @@ def run_around_tests(db):
 
 def test_add_person(person_service, person_factory):
     persons = person_factory.create_many(2)
-    person_service.add_person('Carl', 'Parker')
+    person_service.add_person(dict(first_name='Carl', last_name='Parker'))
 
     assert person_service.count_persons() == len(persons) + 1
 

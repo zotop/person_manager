@@ -10,7 +10,7 @@ person_service = PersonService(db)
 @person_api_blueprint.route('/api/persons', methods=['POST'])
 def add_new_person():
     json = request.get_json()
-    new_person = person_service.add_person(first_name=json['first_name'], last_name=json['last_name'])
+    new_person = person_service.add_person(dict(first_name=json['first_name'], last_name=json['last_name']))
     response = jsonify(new_person.to_dict())
     response.status_code = 201
     return response
