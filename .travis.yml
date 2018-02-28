@@ -3,7 +3,7 @@ services:
   -docker
 
 env:
-  COMPOSE_VERSION: 3.0
+  COMPOSE_VERSION: 1.20.0-rc1
 
 language: python
 python:
