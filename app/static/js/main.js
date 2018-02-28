@@ -62,3 +62,21 @@ $(function(){
 		});
 	});
 });
+
+$(function(){
+	$('#importRandomPerson').click(function(){
+		$.ajax({
+			url: '/api/persons/import/random',
+			type: 'POST',
+			success: function(person){
+        console.log(person);
+        var newPersonRow = create_person_row(person);
+        $('#personsTable tbody').prepend(newPersonRow);
+			},
+			error: function(error){
+				console.log(error);
+        alert("Error: Could not import random person.");
+			}
+		});
+	});
+});
