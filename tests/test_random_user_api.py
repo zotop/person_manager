@@ -1,7 +1,6 @@
 from app.random_user_api import RandomUserApi
 import pytest
 
-#TODO
 def test_get_random_person():
     person = RandomUserApi().get_random_person()
 

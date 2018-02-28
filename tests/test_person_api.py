@@ -80,3 +80,13 @@ def test_list_all_persons_when_there_is_none(test_client):
 
     assert response.status_code == 200
     assert len(json_response) == 0
+    
+# POST Import random Person
+def test_import_random_person(test_client):
+    response = test_client.post('/api/persons/import/random')
+    json_response = json.loads(response.get_data())
+        
+    assert response.status_code == 201    
+    assert len(json_response.get('first_name')) > 0
+    assert len(json_response.get('last_name')) > 0
+    assert json_response.get('id') != None

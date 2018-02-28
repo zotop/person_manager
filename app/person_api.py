@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from database_manager import DatabaseManager
 from person_service import PersonService
+from random_user_api import RandomUserApi
 from pony.orm import *
 
 person_api_blueprint = Blueprint('person_api', __name__)
@@ -23,8 +24,6 @@ def remove_person(person_id):
     except ObjectNotFound:
         return ('', 404)
 
-
-
 @person_api_blueprint.route('/api/persons/<int:person_id>', methods=['GET'])
 def get_person(person_id):
     person = person_service.get_person_by_id(person_id)
@@ -41,4 +40,12 @@ def list_all_persons():
     all_persons = map(lambda x:x.to_dict(), all_persons)
     response = jsonify(all_persons)
     response.status_code = 200
+    return response
+    
+@person_api_blueprint.route('/api/persons/import/random', methods=['POST'])
+def import_random_person():
+    random_person = RandomUserApi().get_random_person()
+    new_person = person_service.add_person(random_person)
+    response = jsonify(new_person.to_dict())
+    response.status_code = 201
     return response
