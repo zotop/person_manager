@@ -23,12 +23,10 @@ install:
 script:
   - pytest tests/
   - docker-compose build
-
-deploy:
-  provider: heroku
-  api_key: ${HEROKU_AUTH_TOKEN}
-  run: 
-    - "container:login"
+  - echo ${HEROKU_AUTH_TOKEN} | docker login --username=_ --password-stdin registry.heroku.com
+  - docker images
+  - docker tag personmanager_web:latest registry.heroku.com/lit-meadow-88864/web
+  - docker push registry.heroku.com/lit-meadow-88864/web
 
 
 
