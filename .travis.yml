@@ -25,7 +25,7 @@ script:
   - docker-compose build
   - echo ${HEROKU_AUTH_TOKEN} | docker login --username=_ --password-stdin registry.heroku.com
   - docker images
-  - docker push personmanager_web:latest
+  - docker push latest
 
 
 
