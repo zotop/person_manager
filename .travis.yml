@@ -23,7 +23,7 @@ install:
 script:
   - pytest tests/
   - docker-compose build
-  - docker login --email=_ --username=_ --password=${HEROKU_API_KEY} registry.heroku.com
+  - docker login --email=${HEROKU_EMAIL} --username=${HEROKU_USERNAME} --password=${HEROKU_API_KEY} registry.heroku.com
 
 
 
