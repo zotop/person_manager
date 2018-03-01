@@ -23,9 +23,12 @@ install:
 script:
   - pytest tests/
   - docker-compose build
-  - echo ${HEROKU_AUTH_TOKEN} | docker login --username=_ --password-stdin registry.heroku.com
-  - docker images
-  - docker push latest
+
+deploy:
+  provider: heroku
+  api_key: ${HEROKU_AUTH_TOKEN}
+  run: 
+    - "container:login"
 
 
 
