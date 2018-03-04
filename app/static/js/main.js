@@ -1,4 +1,4 @@
-function remove_person(personRow, personId) {
+function removePerson(personRow, personId) {
   $.ajax({
     url: '/api/persons/' + personId,
     type: 'DELETE',
@@ -13,16 +13,35 @@ function remove_person(personRow, personId) {
   });
 }
 
-function create_person_row(person) {
+function showPersonPopup(personId) {
+  $.ajax({
+    url: '/api/persons/' + personId,
+    type: 'GET',
+    success: function(response){
+      $("#personName").text(response['first_name'] + " " + response['last_name']);
+      $("#personModal").css("display", "block");
+    },
+    error: function(error){
+      console.log(error);
+      alert("Error: Could not retrieve person.");
+    }
+  });
+}
+
+function createPersonRow(person) {
   var personRow = $("<tr person_id='" + person['id']+ "'><td>" +
   person['first_name']+ "</td><td>" + person['last_name'] + "</td>" +
-  "<td><button>Delete</button></td>" + "</tr>");
-  $(personRow).find('button').click(function(){
-    remove_person(personRow, person['id']);
+  "<td><button class='viewPerson'>View</button></td>" +
+  "<td><button class='deletePerson'>Delete</button></td>" +
+  "</tr>");
+  $(personRow).find('.viewPerson').click(function(){
+    showPersonPopup(person['id']);
+  });
+  $(personRow).find('.deletePerson').click(function(){
+    removePerson(personRow, person['id']);
   });
   return personRow;
 }
-
 
 $(window).on( "load", function() {
    $.ajax({
@@ -30,7 +49,7 @@ $(window).on( "load", function() {
 			type: 'GET',
 			success: function(persons){
         $.each( persons, function( index, person ) {
-          var personRow = create_person_row(person);
+          var personRow = createPersonRow(person);
           $('#personsTable tbody').append(personRow);
         });
 			},
@@ -52,7 +71,7 @@ $(function(){
 			type: 'POST',
 			success: function(person){
         console.log(person);
-        var newPersonRow = create_person_row(person);
+        var newPersonRow = createPersonRow(person);
         $('#personsTable tbody').prepend(newPersonRow);
 			},
 			error: function(error){
@@ -63,6 +82,7 @@ $(function(){
 	});
 });
 
+
 $(function(){
 	$('#importRandomPerson').click(function(){
 		$.ajax({
@@ -70,7 +90,7 @@ $(function(){
 			type: 'POST',
 			success: function(person){
         console.log(person);
-        var newPersonRow = create_person_row(person);
+        var newPersonRow = createPersonRow(person);
         $('#personsTable tbody').prepend(newPersonRow);
 			},
 			error: function(error){
@@ -78,5 +98,11 @@ $(function(){
         alert("Error: Could not import random person.");
 			}
 		});
+	});
+});
+
+$(function(){
+	$('#closePersonModal').click(function(){
+		$("#personModal").css("display", "none");
 	});
 });

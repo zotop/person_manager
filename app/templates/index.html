@@ -23,6 +23,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="/static/css/normalize.css">
   <link rel="stylesheet" href="/static/css/skeleton.css">
+  <link rel="stylesheet" href="/static/css/modal.css">
 
 </head>
 <body>
@@ -51,6 +52,7 @@
               <th>First Name</th>
               <th>Last Name</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -58,6 +60,24 @@
         </table>
       </div>
     </div>
+  </div>
+
+  <!-- Person profile Modal -->
+  <div id="personModal" class="modal">
+    <div class="modal-content">
+      <span id="closePersonModal" class="close">&times;</span>
+      <div class="container">
+        <div class="row">
+          <img style="border-radius: 50%;" src="https://randomuser.me/api/portraits/women/20.jpg">
+        </div>
+        <div class="row">
+          <span color="gray">Hello! My name is</span><br>
+          <h2 id="personName">Johny Fiverson</h2>
+        </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 <!-- End Document
