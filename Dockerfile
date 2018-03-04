@@ -4,4 +4,4 @@ WORKDIR /personmanager
 EXPOSE 5000
 RUN pip install -r requirements.txt
 ENTRYPOINT ["python", "app/app.py"]
-CMD [“echo”, Person Manager App”]
+CMD ["echo", "Person Manager App"]
