@@ -7,6 +7,7 @@ class DatabaseManager:
         class Person(db.Entity):
             first_name = Required(str)
             last_name = Required(str)
+            profile_picture_url = Optional(str)
 
     def initialize_database(self):
         db = Database()

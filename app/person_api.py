@@ -41,7 +41,7 @@ def list_all_persons():
     response = jsonify(all_persons)
     response.status_code = 200
     return response
-    
+
 @person_api_blueprint.route('/api/persons/import/random', methods=['POST'])
 def import_random_person():
     random_person = RandomUserApi().get_random_person()

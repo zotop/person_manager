@@ -90,4 +90,5 @@ def test_import_random_person(test_client):
     assert response.status_code == 201
     assert len(json_response.get('first_name')) > 0
     assert len(json_response.get('last_name')) > 0
+    assert len(json_response.get('profile_picture_url')) > 0
     assert json_response.get('id') != None

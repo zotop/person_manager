@@ -8,7 +8,9 @@ class RandomUserApi:
         response = requests.get(API_ENDPOINT)
         user_json = response.json()
         name = user_json['results'][0]['name']
-        first_name = name['first'].title()
-        last_name = name['last'].title()
-        person_dict = dict(first_name=first_name,last_name=last_name)
+        picture = user_json['results'][0]['picture']
+        person_dict = {}
+        person_dict['first_name'] = name['first'].title()
+        person_dict['last_name'] = name['last'].title()
+        person_dict['profile_picture_url'] = picture['large']
         return person_dict

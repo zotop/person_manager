@@ -19,6 +19,11 @@ function showPersonPopup(personId) {
     type: 'GET',
     success: function(response){
       $("#personName").text(response['first_name'] + " " + response['last_name']);
+      profilePicUrl = "static/images/blank-profile-picture.png";
+      if (response['profile_picture_url']) {
+        profilePicUrl = response['profile_picture_url'];
+      }
+      $("#personModal").find(".profile-pic").attr('src', profilePicUrl);
       $("#personModal").css("display", "block");
     },
     error: function(error){
